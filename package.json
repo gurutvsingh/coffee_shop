@@ -5,7 +5,8 @@
   "main": "server.js",
   "scripts": {
     "start": "node server.js",
-    "dev": "nodemon server.js"
+    "dev": "nodemon server.js",
+    "check:health": "powershell -Command \"Invoke-RestMethod -Uri http://localhost:3000/ -Method Get | ConvertTo-Json -Depth 4\""
   },
   "dependencies": {
     "cors": "^2.8.5",
