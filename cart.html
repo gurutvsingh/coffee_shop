@@ -72,6 +72,44 @@
     <button id="proceedCheckoutBtn" class="checkout-btn" type="button">Proceed to Checkout</button>
   </div>
 
+  <div id="customizeModal" class="modal customize-modal hidden" role="dialog" aria-modal="true" aria-labelledby="customizeTitle">
+    <div class="customize-card">
+      <div class="customize-top-image" id="customizeTopImage"></div>
+      <div class="customize-content">
+        <div class="customize-head">
+          <div>
+            <h3 id="customizeTitle">Customize Drink</h3>
+            <p id="customizePrice">₹0</p>
+          </div>
+          <button id="closeCustomizeBtn" type="button" class="icon-btn" aria-label="Close">✕</button>
+        </div>
+
+        <div class="customize-group">
+          <p>Sugar Level</p>
+          <div class="chip-row" id="sugarChipRow">
+            <button class="choice-chip" type="button" data-group="sugar" data-value="No Sugar">No Sugar</button>
+            <button class="choice-chip" type="button" data-group="sugar" data-value="Less Sugar">Less Sugar</button>
+            <button class="choice-chip active" type="button" data-group="sugar" data-value="Regular">Regular</button>
+            <button class="choice-chip" type="button" data-group="sugar" data-value="Extra Sweet">Extra Sweet</button>
+          </div>
+        </div>
+
+        <div class="customize-group">
+          <p>Milk Type</p>
+          <div class="chip-row" id="milkChipRow">
+            <button class="choice-chip" type="button" data-group="milk" data-value="No Milk">No Milk</button>
+            <button class="choice-chip" type="button" data-group="milk" data-value="Skimmed">Skimmed</button>
+            <button class="choice-chip active" type="button" data-group="milk" data-value="Regular">Regular</button>
+            <button class="choice-chip" type="button" data-group="milk" data-value="Oat Milk">Oat Milk</button>
+            <button class="choice-chip" type="button" data-group="milk" data-value="Almond Milk">Almond Milk</button>
+          </div>
+        </div>
+
+        <button id="addCustomToCartBtn" class="checkout-submit" type="button">Add to Cart</button>
+      </div>
+    </div>
+  </div>
+
   <div id="checkoutModal" class="modal hidden" role="dialog" aria-modal="true" aria-labelledby="checkoutTitle">
     <div class="modal-card">
       <div class="modal-head">

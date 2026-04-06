@@ -44,12 +44,21 @@ const STORAGE_KEYS = {
 };
 
 const API_BASE_URL = 'http://localhost:3000';
+const DEFAULT_CUSTOMIZATION = {
+  sugar: 'Regular',
+  milk: 'Regular'
+};
 
 const state = {
   cart: loadFromStorage(STORAGE_KEYS.cart, {}),
   orderType: loadFromStorage(STORAGE_KEYS.orderPrefs, { orderType: 'delivery', coupon: '' }).orderType || 'delivery',
   coupon: loadFromStorage(STORAGE_KEYS.orderPrefs, { orderType: 'delivery', coupon: '' }).coupon || '',
-  discountRate: 0
+  discountRate: 0,
+  customize: {
+    productId: '',
+    sugar: DEFAULT_CUSTOMIZATION.sugar,
+    milk: DEFAULT_CUSTOMIZATION.milk
+  }
 };
 
 const dom = {
@@ -71,6 +80,13 @@ const dom = {
   orderTypeButtons: document.querySelectorAll('.order-type-btn'),
   checkoutModal: document.getElementById('checkoutModal'),
   closeModalBtn: document.getElementById('closeModalBtn'),
+  customizeModal: document.getElementById('customizeModal'),
+  customizeTitle: document.getElementById('customizeTitle'),
+  customizePrice: document.getElementById('customizePrice'),
+  customizeTopImage: document.getElementById('customizeTopImage'),
+  closeCustomizeBtn: document.getElementById('closeCustomizeBtn'),
+  addCustomToCartBtn: document.getElementById('addCustomToCartBtn'),
+  customChips: document.querySelectorAll('.choice-chip'),
   checkoutForm: document.getElementById('checkoutForm'),
   customerName: document.getElementById('customerName'),
   customerPhone: document.getElementById('customerPhone'),
@@ -105,13 +121,27 @@ function getCartEntries() {
   return Object.entries(state.cart).filter(([, qty]) => Number.isInteger(qty) && qty > 0);
 }
 
+function createCartKey(productId, sugar, milk) {
+  return `${productId}__${sugar}__${milk}`;
+}
+
+function parseCartKey(cartKey) {
+  const parts = cartKey.split('__');
+  return {
+    productId: parts[0],
+    sugar: parts[1] || DEFAULT_CUSTOMIZATION.sugar,
+    milk: parts[2] || DEFAULT_CUSTOMIZATION.milk
+  };
+}
+
 function getProduct(id) {
   return PRODUCT_CATALOG.find((item) => item.id === id);
 }
 
 function calculateTotals() {
-  const subtotal = getCartEntries().reduce((sum, [id, qty]) => {
-    const item = getProduct(id);
+  const subtotal = getCartEntries().reduce((sum, [cartKey, qty]) => {
+    const parsed = parseCartKey(cartKey);
+    const item = getProduct(parsed.productId);
     return item ? sum + item.price * qty : sum;
   }, 0);
 
@@ -144,18 +174,20 @@ function renderCartItems() {
     dom.emptyCartState.classList.remove('hidden');
   } else {
     dom.emptyCartState.classList.add('hidden');
-    dom.cartItemsContainer.innerHTML = entries.map(([id, qty]) => {
-      const product = getProduct(id);
+    dom.cartItemsContainer.innerHTML = entries.map(([cartKey, qty]) => {
+      const parsed = parseCartKey(cartKey);
+      const product = getProduct(parsed.productId);
       if (!product) {
         return '';
       }
 
       return `
-        <article class="cart-item" data-cart-id="${id}">
+        <article class="cart-item" data-cart-id="${cartKey}">
           <img src="${product.image}" alt="${product.name}">
           <div class="cart-item-meta">
             <h4>${product.name}</h4>
             <p>${inr(product.price)}</p>
+            <div class="cart-customization">${parsed.sugar} | ${parsed.milk}</div>
             <div class="qty-wrap">
               <button class="qty-control" type="button" data-action="decrease">-</button>
               <span>${qty}</span>
@@ -186,6 +218,53 @@ function renderCartItems() {
     orderType: state.orderType,
     coupon: state.coupon
   });
+}
+
+function renderCustomizeModal() {
+  const product = getProduct(state.customize.productId);
+  if (!product) {
+    return;
+  }
+
+  dom.customizeTitle.textContent = product.name;
+  dom.customizePrice.textContent = inr(product.price);
+  dom.customizeTopImage.style.backgroundImage = `url('${product.image}')`;
+
+  dom.customChips.forEach((chip) => {
+    const group = chip.dataset.group;
+    const value = chip.dataset.value;
+    const selected = group === 'sugar'
+      ? state.customize.sugar === value
+      : state.customize.milk === value;
+    chip.classList.toggle('active', selected);
+  });
+}
+
+function openCustomizeModal(productId) {
+  state.customize.productId = productId;
+  state.customize.sugar = DEFAULT_CUSTOMIZATION.sugar;
+  state.customize.milk = DEFAULT_CUSTOMIZATION.milk;
+  renderCustomizeModal();
+  dom.customizeModal.classList.remove('hidden');
+}
+
+function closeCustomizeModal() {
+  dom.customizeModal.classList.add('hidden');
+}
+
+function addCustomizedItemToCart() {
+  const { productId, sugar, milk } = state.customize;
+  if (!productId) {
+    return;
+  }
+
+  const cartKey = createCartKey(productId, sugar, milk);
+  state.cart[cartKey] = (state.cart[cartKey] || 0) + 1;
+  renderCartItems();
+  closeCustomizeModal();
+
+  const product = getProduct(productId);
+  showToast(`${product ? product.name : 'Item'} added to cart`);
 }
 
 function showToast(message) {
@@ -272,9 +351,10 @@ async function placeOrder(event) {
   }
 
   const items = getCartEntries().map(([id, quantity]) => {
-    const product = getProduct(id);
+    const parsed = parseCartKey(id);
+    const product = getProduct(parsed.productId);
     return {
-      name: product.name,
+      name: `${product.name} (${parsed.sugar}, ${parsed.milk})`,
       quantity,
       price: product.price
     };
@@ -343,9 +423,7 @@ function onCatalogClick(event) {
     return;
   }
 
-  state.cart[productId] = (state.cart[productId] || 0) + 1;
-  renderCartItems();
-  showToast('Item added to cart');
+  openCustomizeModal(productId);
 }
 
 function onCartClick(event) {
@@ -399,6 +477,8 @@ function registerEvents() {
   dom.applyCouponBtn.addEventListener('click', applyCoupon);
   dom.proceedCheckoutBtn.addEventListener('click', openCheckoutModal);
   dom.closeModalBtn.addEventListener('click', closeCheckoutModal);
+  dom.closeCustomizeBtn.addEventListener('click', closeCustomizeModal);
+  dom.addCustomToCartBtn.addEventListener('click', addCustomizedItemToCart);
   dom.checkoutForm.addEventListener('submit', placeOrder);
   dom.browseCoffeeBtn.addEventListener('click', () => {
     document.querySelector('.menu-section')?.scrollIntoView({ behavior: 'smooth' });
@@ -416,6 +496,26 @@ function registerEvents() {
     if (event.target === dom.checkoutModal) {
       closeCheckoutModal();
     }
+  });
+
+  dom.customizeModal.addEventListener('click', (event) => {
+    if (event.target === dom.customizeModal) {
+      closeCustomizeModal();
+    }
+  });
+
+  dom.customChips.forEach((chip) => {
+    chip.addEventListener('click', () => {
+      const group = chip.dataset.group;
+      const value = chip.dataset.value;
+      if (group === 'sugar') {
+        state.customize.sugar = value || DEFAULT_CUSTOMIZATION.sugar;
+      }
+      if (group === 'milk') {
+        state.customize.milk = value || DEFAULT_CUSTOMIZATION.milk;
+      }
+      renderCustomizeModal();
+    });
   });
 }
 
