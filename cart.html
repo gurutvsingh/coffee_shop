@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Brew Haven Cart</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@600;700&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body class="cart-page">
+  <header class="cart-header">
+    <a class="brand" href="index.html">Brew Haven</a>
+    <div class="header-cart-pill" aria-label="Cart item count">
+      <span class="cart-icon">🛒</span>
+      <span id="cartCountBadge" class="cart-count-badge">0</span>
+    </div>
+  </header>
+
+  <main class="cart-main">
+    <section class="menu-section">
+      <div class="section-title-row">
+        <h1>Order Coffee</h1>
+        <p>Fresh brews, quick delivery, happy mornings.</p>
+      </div>
+      <div id="productGrid" class="product-grid"></div>
+    </section>
+
+    <aside class="cart-panel-app">
+      <div class="cart-panel-top">
+        <h2>Your Cart</h2>
+        <div class="order-type-switch" role="radiogroup" aria-label="Order type">
+          <button class="order-type-btn active" data-order-type="delivery" type="button">Delivery</button>
+          <button class="order-type-btn" data-order-type="pickup" type="button">Pickup</button>
+        </div>
+      </div>
+
+      <div id="cartItemsContainer" class="cart-items-container"></div>
+
+      <div id="emptyCartState" class="empty-cart-state hidden">
+        <p>Your cart is empty ☕</p>
+        <button id="browseCoffeeBtn" class="ghost-btn" type="button">Browse Coffee</button>
+      </div>
+
+      <section class="price-summary">
+        <h3>Price Summary</h3>
+        <div class="summary-row"><span>Subtotal</span><strong id="subtotalPrice">₹0</strong></div>
+        <div class="summary-row"><span>Delivery Fee</span><strong id="deliveryFee">₹40</strong></div>
+        <div class="summary-row"><span>Taxes (5%)</span><strong id="taxPrice">₹0</strong></div>
+        <div class="summary-row total"><span>Final Total</span><strong id="finalTotal">₹0</strong></div>
+
+        <div class="coupon-wrap">
+          <label for="couponInput">Coupon</label>
+          <div class="coupon-row">
+            <input id="couponInput" type="text" placeholder="TRY: BREW10">
+            <button id="applyCouponBtn" type="button">Apply</button>
+          </div>
+          <p id="couponMessage" class="helper-text"></p>
+        </div>
+
+        <p id="etaText" class="eta-text">Estimated delivery: 25-35 min</p>
+      </section>
+    </aside>
+  </main>
+
+  <div class="checkout-bar" id="checkoutBar">
+    <div>
+      <p class="checkout-label">Payable</p>
+      <strong id="checkoutTotal">₹0</strong>
+    </div>
+    <button id="proceedCheckoutBtn" class="checkout-btn" type="button">Proceed to Checkout</button>
+  </div>
+
+  <div id="checkoutModal" class="modal hidden" role="dialog" aria-modal="true" aria-labelledby="checkoutTitle">
+    <div class="modal-card">
+      <div class="modal-head">
+        <h3 id="checkoutTitle">Checkout Details</h3>
+        <button id="closeModalBtn" type="button" class="icon-btn" aria-label="Close">✕</button>
+      </div>
+
+      <form id="checkoutForm" class="checkout-form">
+        <label for="customerName">Name</label>
+        <input id="customerName" required type="text" placeholder="Your full name">
+
+        <label for="customerPhone">Phone</label>
+        <input id="customerPhone" required type="tel" placeholder="10-digit mobile number">
+
+        <label class="inline-label">Order Type</label>
+        <div class="inline-toggle">
+          <label><input type="radio" name="checkoutOrderType" value="delivery" checked> Delivery</label>
+          <label><input type="radio" name="checkoutOrderType" value="pickup"> Pickup</label>
+        </div>
+
+        <div id="addressFieldWrap">
+          <label for="customerAddress">Address</label>
+          <textarea id="customerAddress" rows="3" placeholder="House no, street, city"></textarea>
+        </div>
+
+        <button class="checkout-submit" type="submit">Place Order</button>
+      </form>
+    </div>
+  </div>
+
+  <div id="toast" class="toast">Item added to cart</div>
+
+  <script src="cart.js"></script>
+</body>
+</html>

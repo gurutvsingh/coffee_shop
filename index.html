@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Brew Haven Coffee</title>
+    <meta name="description" content="Order handcrafted coffee online, choose pickup or home delivery, and book your table at Brew Haven.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div id="loader" class="loader">
+        <div class="loader-cup">
+            <span class="steam steam-1"></span>
+            <span class="steam steam-2"></span>
+            <span class="steam steam-3"></span>
+        </div>
+        <p>Brewing your experience...</p>
+    </div>
+
+    <nav id="navbar">
+        <div class="nav-container">
+            <a href="#hero" class="logo">Brew Haven</a>
+            <ul class="nav-links">
+                <li><a href="#menu">Menu</a></li>
+                <li><a href="#order">Order</a></li>
+                <li><a href="cart.html">Cart</a></li>
+                <li><a href="#booking">Book Table</a></li>
+                <li><a href="#testimonials">Testimonials</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <header id="hero">
+        <div class="hero-overlay"></div>
+        <div class="hero-content reveal">
+            <p class="hero-tag">Curated Coffee. Crafted Moments.</p>
+            <h1>Your Daily Cup, Elevated</h1>
+            <p class="hero-subtext">From intense espresso to refreshing cold brew, enjoy premium coffee at the cafe or at home.</p>
+            <a href="#menu" class="cta-btn">View Menu</a>
+            <a href="cart.html" class="cta-btn" style="margin-left: 0.65rem;">Open Cart</a>
+        </div>
+    </header>
+
+    <section id="menu" class="section">
+        <div class="section-header reveal">
+            <h2>Menu</h2>
+            <p>Pick your favorite coffee and add it to cart instantly.</p>
+        </div>
+
+        <div class="coffee-grid">
+            <article class="coffee-card reveal">
+                <div class="image-wrapper">
+                    <img src="https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?q=80&w=900&auto=format&fit=crop" alt="Espresso">
+                </div>
+                <div class="card-content">
+                    <h3>Espresso</h3>
+                    <p>Bold and concentrated shot with rich crema.</p>
+                    <div class="card-footer">
+                        <span class="price">₹149</span>
+                        <button class="add-to-cart" data-id="espresso">Add to Cart</button>
+                    </div>
+                </div>
+            </article>
+
+            <article class="coffee-card reveal">
+                <div class="image-wrapper">
+                    <img src="https://images.unsplash.com/photo-1534778101976-62847782c213?q=80&w=900&auto=format&fit=crop" alt="Cappuccino">
+                </div>
+                <div class="card-content">
+                    <h3>Cappuccino</h3>
+                    <p>Classic espresso with velvety milk foam.</p>
+                    <div class="card-footer">
+                        <span class="price">₹199</span>
+                        <button class="add-to-cart" data-id="cappuccino">Add to Cart</button>
+                    </div>
+                </div>
+            </article>
+
+            <article class="coffee-card reveal">
+                <div class="image-wrapper">
+                    <img src="https://images.unsplash.com/photo-1572442388796-11668a67e53d?q=80&w=900&auto=format&fit=crop" alt="Latte">
+                </div>
+                <div class="card-content">
+                    <h3>Latte</h3>
+                    <p>Smooth espresso and steamed milk with latte art.</p>
+                    <div class="card-footer">
+                        <span class="price">₹249</span>
+                        <button class="add-to-cart" data-id="latte">Add to Cart</button>
+                    </div>
+                </div>
+            </article>
+
+            <article class="coffee-card reveal">
+                <div class="image-wrapper">
+                    <img src="https://images.unsplash.com/photo-1461023058943-07fcbe16d735?q=80&w=900&auto=format&fit=crop" alt="Cold Brew">
+                </div>
+                <div class="card-content">
+                    <h3>Cold Brew</h3>
+                    <p>Slow-steeped and refreshing, served chilled.</p>
+                    <div class="card-footer">
+                        <span class="price">₹229</span>
+                        <button class="add-to-cart" data-id="coldbrew">Add to Cart</button>
+                    </div>
+                </div>
+            </article>
+
+            <article class="coffee-card reveal">
+                <div class="image-wrapper">
+                    <img src="https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?q=80&w=900&auto=format&fit=crop" alt="Mocha">
+                </div>
+                <div class="card-content">
+                    <h3>Mocha</h3>
+                    <p>Chocolate-forward espresso drink for sweet cravings.</p>
+                    <div class="card-footer">
+                        <span class="price">₹269</span>
+                        <button class="add-to-cart" data-id="mocha">Add to Cart</button>
+                    </div>
+                </div>
+            </article>
+
+            <article class="coffee-card reveal">
+                <div class="image-wrapper">
+                    <img src="https://images.unsplash.com/photo-1509785307050-d4066910ec1e?q=80&w=900&auto=format&fit=crop" alt="Flat White">
+                </div>
+                <div class="card-content">
+                    <h3>Flat White</h3>
+                    <p>Silky texture with a stronger coffee finish.</p>
+                    <div class="card-footer">
+                        <span class="price">₹239</span>
+                        <button class="add-to-cart" data-id="flatwhite">Add to Cart</button>
+                    </div>
+                </div>
+            </article>
+        </div>
+    </section>
+
+    <section id="order" class="section alt-bg">
+        <div class="section-header reveal">
+            <h2>Online Ordering</h2>
+            <p>Manage your cart, choose pickup or delivery, and checkout in seconds.</p>
+        </div>
+
+        <div class="order-layout">
+            <div class="cart-panel reveal">
+                <h3>Cart</h3>
+                <div id="cartItems" class="cart-items">
+                    <p class="empty-cart">Your cart is empty. Add coffee from the menu.</p>
+                </div>
+                <div class="total-row">
+                    <span>Total</span>
+                    <strong id="cartTotal">₹0</strong>
+                </div>
+            </div>
+
+            <div class="checkout-panel reveal">
+                <h3>Checkout</h3>
+                <div class="conditional-fields">
+                    <label for="orderName">Name</label>
+                    <input type="text" id="orderName" placeholder="Your full name">
+
+                    <label for="phoneNumber">Phone Number</label>
+                    <input type="tel" id="phoneNumber" placeholder="10-digit phone number">
+                </div>
+
+                <div class="option-group">
+                    <p class="option-label">Select fulfillment</p>
+                    <label class="radio-option">
+                        <input type="radio" name="fulfillment" value="pickup" checked>
+                        Pickup from Store
+                    </label>
+                    <label class="radio-option">
+                        <input type="radio" name="fulfillment" value="delivery">
+                        Home Delivery
+                    </label>
+                </div>
+
+                <div id="pickupFields" class="conditional-fields">
+                    <label for="pickupSlot">Pickup Time Slot</label>
+                    <select id="pickupSlot">
+                        <option value="">Select a slot</option>
+                        <option>09:00 AM - 09:30 AM</option>
+                        <option>11:00 AM - 11:30 AM</option>
+                        <option>02:00 PM - 02:30 PM</option>
+                        <option>05:00 PM - 05:30 PM</option>
+                    </select>
+                </div>
+
+                <div id="deliveryFields" class="conditional-fields hidden">
+                    <label for="deliveryAddress">Delivery Address</label>
+                    <textarea id="deliveryAddress" rows="3" placeholder="House no, street, area, city"></textarea>
+                </div>
+
+                <button id="placeOrderBtn" class="submit-btn">Place Order</button>
+                <p id="orderMessage" class="feedback"></p>
+            </div>
+        </div>
+    </section>
+
+    <section id="booking" class="section">
+        <div class="section-header reveal">
+            <h2>Table Booking</h2>
+            <p>Reserve your table and enjoy your coffee moment without waiting.</p>
+        </div>
+
+        <div class="booking-card reveal">
+            <form id="bookingForm" class="booking-form">
+                <label for="bookName">Name</label>
+                <input id="bookName" type="text" required>
+
+                <label for="bookPeople">Number of People</label>
+                <input id="bookPeople" type="number" min="1" max="20" required>
+
+                <label for="bookDateTime">Date &amp; Time</label>
+                <input id="bookDateTime" type="datetime-local" required>
+
+                <button type="submit" class="submit-btn">Confirm Booking</button>
+                <p id="bookingMessage" class="feedback"></p>
+            </form>
+        </div>
+    </section>
+
+    <section id="testimonials" class="section alt-bg">
+        <div class="section-header reveal">
+            <h2>Testimonials</h2>
+            <p>What our customers say about Brew Haven.</p>
+        </div>
+
+        <div class="testimonial-grid">
+            <article class="testimonial-card reveal">
+                <p>"The cappuccino is incredible and the pickup option is super fast during office rush."</p>
+                <h4>- Riya M.</h4>
+            </article>
+            <article class="testimonial-card reveal">
+                <p>"Loved the smooth delivery experience. Coffee arrived hot and perfectly packed."</p>
+                <h4>- Arjun K.</h4>
+            </article>
+            <article class="testimonial-card reveal">
+                <p>"Booked a table for a weekend catch-up. Great ambience, great mocha, great service."</p>
+                <h4>- Neha S.</h4>
+            </article>
+        </div>
+    </section>
+
+    <section id="contact" class="section">
+        <div class="section-header reveal">
+            <h2>Contact</h2>
+            <p>Visit us, call us, or drop a message.</p>
+        </div>
+
+        <div class="contact-grid">
+            <div class="contact-card reveal">
+                <h3>Contact Details</h3>
+                <p><strong>Location:</strong> 22 Brew Street, Indiranagar, Bengaluru</p>
+                <p><strong>Phone:</strong> +91 98765 43210</p>
+                <p><strong>Email:</strong> hello@brewhaven.in</p>
+            </div>
+
+            <div class="contact-card reveal">
+                <h3>Find Us</h3>
+                <iframe title="Brew Haven Location" src="https://maps.google.com/maps?q=indiranagar%20bengaluru&t=&z=13&ie=UTF8&iwloc=&output=embed" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <p>&copy; 2026 Brew Haven Coffee. All rights reserved.</p>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
