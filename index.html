@@ -135,68 +135,76 @@
                     </div>
                 </div>
             </article>
+
+            <article class="coffee-card reveal">
+                <div class="image-wrapper">
+                    <img src="https://images.unsplash.com/photo-1497636577773-f1231844b336?q=80&w=900&auto=format&fit=crop" alt="Americano">
+                </div>
+                <div class="card-content">
+                    <h3>Americano</h3>
+                    <p>Espresso topped with hot water for a clean finish.</p>
+                    <div class="card-footer">
+                        <span class="price">₹179</span>
+                        <button class="add-to-cart" data-id="americano">Add to Cart</button>
+                    </div>
+                </div>
+            </article>
+
+            <article class="coffee-card reveal">
+                <div class="image-wrapper">
+                    <img src="https://images.unsplash.com/photo-1517701604599-bb29b565090c?q=80&w=900&auto=format&fit=crop" alt="Macchiato">
+                </div>
+                <div class="card-content">
+                    <h3>Macchiato</h3>
+                    <p>Rich espresso marked with a layer of foamed milk.</p>
+                    <div class="card-footer">
+                        <span class="price">₹219</span>
+                        <button class="add-to-cart" data-id="macchiato">Add to Cart</button>
+                    </div>
+                </div>
+            </article>
+
+            <article class="coffee-card reveal">
+                <div class="image-wrapper">
+                    <img src="https://images.unsplash.com/photo-1485808191679-5f86510681a2?q=80&w=900&auto=format&fit=crop" alt="Iced Latte">
+                </div>
+                <div class="card-content">
+                    <h3>Iced Latte</h3>
+                    <p>Chilled espresso with milk and smooth sweetness.</p>
+                    <div class="card-footer">
+                        <span class="price">₹259</span>
+                        <button class="add-to-cart" data-id="icedlatte">Add to Cart</button>
+                    </div>
+                </div>
+            </article>
+
+            <article class="coffee-card reveal">
+                <div class="image-wrapper">
+                    <img src="https://images.unsplash.com/photo-1445116572660-236099ec97a0?q=80&w=900&auto=format&fit=crop" alt="Caramel Latte">
+                </div>
+                <div class="card-content">
+                    <h3>Caramel Latte</h3>
+                    <p>Creamy latte blended with buttery caramel notes.</p>
+                    <div class="card-footer">
+                        <span class="price">₹279</span>
+                        <button class="add-to-cart" data-id="caramellatte">Add to Cart</button>
+                    </div>
+                </div>
+            </article>
         </div>
     </section>
 
     <section id="order" class="section alt-bg">
         <div class="section-header reveal">
-            <h2>Online Ordering</h2>
-            <p>Manage your cart, choose pickup or delivery, and checkout in seconds.</p>
+            <h2>Order in Cart</h2>
+            <p>Your full checkout flow is available on the dedicated cart page.</p>
         </div>
-
-        <div class="order-layout">
-            <div class="cart-panel reveal">
-                <h3>Cart</h3>
-                <div id="cartItems" class="cart-items">
-                    <p class="empty-cart">Your cart is empty. Add coffee from the menu.</p>
-                </div>
-                <div class="total-row">
-                    <span>Total</span>
-                    <strong id="cartTotal">₹0</strong>
-                </div>
-            </div>
-
-            <div class="checkout-panel reveal">
-                <h3>Checkout</h3>
-                <div class="conditional-fields">
-                    <label for="orderName">Name</label>
-                    <input type="text" id="orderName" placeholder="Your full name">
-
-                    <label for="phoneNumber">Phone Number</label>
-                    <input type="tel" id="phoneNumber" placeholder="10-digit phone number">
-                </div>
-
-                <div class="option-group">
-                    <p class="option-label">Select fulfillment</p>
-                    <label class="radio-option">
-                        <input type="radio" name="fulfillment" value="pickup" checked>
-                        Pickup from Store
-                    </label>
-                    <label class="radio-option">
-                        <input type="radio" name="fulfillment" value="delivery">
-                        Home Delivery
-                    </label>
-                </div>
-
-                <div id="pickupFields" class="conditional-fields">
-                    <label for="pickupSlot">Pickup Time Slot</label>
-                    <select id="pickupSlot">
-                        <option value="">Select a slot</option>
-                        <option>09:00 AM - 09:30 AM</option>
-                        <option>11:00 AM - 11:30 AM</option>
-                        <option>02:00 PM - 02:30 PM</option>
-                        <option>05:00 PM - 05:30 PM</option>
-                    </select>
-                </div>
-
-                <div id="deliveryFields" class="conditional-fields hidden">
-                    <label for="deliveryAddress">Delivery Address</label>
-                    <textarea id="deliveryAddress" rows="3" placeholder="House no, street, area, city"></textarea>
-                </div>
-
-                <button id="placeOrderBtn" class="submit-btn">Place Order</button>
-                <p id="orderMessage" class="feedback"></p>
-            </div>
+        <div class="booking-card reveal" style="max-width: 760px;">
+            <form class="booking-form" onsubmit="return false;">
+                <label>Need delivery or pickup?</label>
+                <p style="margin: 0 0 0.8rem; color: var(--muted);">Open Cart to manage quantity, choose fulfillment, and place your order in one place.</p>
+                <a href="cart.html" class="submit-btn" style="text-align: center; text-decoration: none;">Go To Cart</a>
+            </form>
         </div>
     </section>
 

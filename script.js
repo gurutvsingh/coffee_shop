@@ -4,18 +4,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const loader = document.getElementById('loader');
     const navbar = document.getElementById('navbar');
     const addToCartButtons = document.querySelectorAll('.add-to-cart');
-    const cartItemsContainer = document.getElementById('cartItems');
-    const cartTotal = document.getElementById('cartTotal');
-    const placeOrderBtn = document.getElementById('placeOrderBtn');
-    const orderMessage = document.getElementById('orderMessage');
     const bookingForm = document.getElementById('bookingForm');
     const bookingMessage = document.getElementById('bookingMessage');
-    const pickupFields = document.getElementById('pickupFields');
-    const deliveryFields = document.getElementById('deliveryFields');
-    const pickupSlot = document.getElementById('pickupSlot');
-    const deliveryAddress = document.getElementById('deliveryAddress');
-    const orderName = document.getElementById('orderName');
-    const phoneNumber = document.getElementById('phoneNumber');
 
     const menuItems = {
         espresso: { name: 'Espresso', price: 149 },
@@ -23,7 +13,11 @@ document.addEventListener('DOMContentLoaded', () => {
         latte: { name: 'Latte', price: 249 },
         coldbrew: { name: 'Cold Brew', price: 229 },
         mocha: { name: 'Mocha', price: 269 },
-        flatwhite: { name: 'Flat White', price: 239 }
+        flatwhite: { name: 'Flat White', price: 239 },
+        americano: { name: 'Americano', price: 179 },
+        macchiato: { name: 'Macchiato', price: 219 },
+        icedlatte: { name: 'Iced Latte', price: 259 },
+        caramellatte: { name: 'Caramel Latte', price: 279 }
     };
 
     const loadCart = () => {
@@ -66,38 +60,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-    const updateCart = () => {
-        const entries = Object.entries(cart).filter(([, qty]) => qty > 0);
-
-        if (entries.length === 0) {
-            cartItemsContainer.innerHTML = '<p class="empty-cart">Your cart is empty. Add coffee from the menu.</p>';
-            cartTotal.textContent = inr(0);
-            localStorage.setItem(CART_STORAGE_KEY, JSON.stringify(cart));
-            return;
-        }
-
-        let total = 0;
-        cartItemsContainer.innerHTML = entries.map(([id, qty]) => {
-            const item = menuItems[id];
-            const linePrice = item.price * qty;
-            total += linePrice;
-
-            return `
-                <div class="cart-item">
-                    <div>
-                        <strong>${item.name}</strong>
-                        <div class="qty-controls" data-id="${id}">
-                            <button class="qty-btn" data-action="decrease">-</button>
-                            <span>${qty}</span>
-                            <button class="qty-btn" data-action="increase">+</button>
-                        </div>
-                    </div>
-                    <strong>${inr(linePrice)}</strong>
-                </div>
-            `;
-        }).join('');
-
-        cartTotal.textContent = inr(total);
+    const syncCartStorage = () => {
         localStorage.setItem(CART_STORAGE_KEY, JSON.stringify(cart));
     };
 
@@ -105,139 +68,8 @@ document.addEventListener('DOMContentLoaded', () => {
         button.addEventListener('click', () => {
             const id = button.dataset.id;
             cart[id] = (cart[id] || 0) + 1;
-            updateCart();
+            syncCartStorage();
         });
-    });
-
-    cartItemsContainer.addEventListener('click', (event) => {
-        const clicked = event.target;
-        if (!(clicked instanceof HTMLElement) || !clicked.classList.contains('qty-btn')) {
-            return;
-        }
-
-        const controls = clicked.closest('.qty-controls');
-        if (!controls) {
-            return;
-        }
-
-        const id = controls.dataset.id;
-        if (!id) {
-            return;
-        }
-
-        const action = clicked.dataset.action;
-        if (action === 'increase') {
-            cart[id] += 1;
-        }
-
-        if (action === 'decrease') {
-            cart[id] -= 1;
-            if (cart[id] <= 0) {
-                delete cart[id];
-            }
-        }
-
-        updateCart();
-    });
-
-    document.querySelectorAll('input[name="fulfillment"]').forEach((option) => {
-        option.addEventListener('change', (event) => {
-            const value = event.target.value;
-            const pickupSelected = value === 'pickup';
-
-            pickupFields.classList.toggle('hidden', !pickupSelected);
-            deliveryFields.classList.toggle('hidden', pickupSelected);
-            orderMessage.textContent = '';
-            orderMessage.className = 'feedback';
-        });
-    });
-
-    placeOrderBtn.addEventListener('click', async () => {
-        const totalItems = Object.values(cart).reduce((sum, qty) => sum + qty, 0);
-        const fulfillment = document.querySelector('input[name="fulfillment"]:checked').value;
-        const name = orderName.value.trim();
-        const phone = phoneNumber.value.trim();
-
-        if (!name || !/^\d{10}$/.test(phone)) {
-            orderMessage.textContent = 'Enter a valid name and 10-digit phone number.';
-            orderMessage.className = 'feedback error';
-            return;
-        }
-
-        if (totalItems === 0) {
-            orderMessage.textContent = 'Please add at least one item to cart before checkout.';
-            orderMessage.className = 'feedback error';
-            return;
-        }
-
-        if (fulfillment === 'delivery') {
-            if (!deliveryAddress.value.trim()) {
-                orderMessage.textContent = 'Enter a valid delivery address.';
-                orderMessage.className = 'feedback error';
-                return;
-            }
-        }
-
-        if (fulfillment === 'pickup') {
-            if (!pickupSlot.value) {
-                orderMessage.textContent = 'Please select a pickup time slot.';
-                orderMessage.className = 'feedback error';
-                return;
-            }
-        }
-
-        const itemsPayload = Object.entries(cart)
-            .filter(([, qty]) => qty > 0)
-            .map(([id, qty]) => ({
-                name: menuItems[id].name,
-                quantity: qty,
-                price: menuItems[id].price
-            }));
-
-        const total = itemsPayload.reduce((sum, item) => sum + (item.price * item.quantity), 0);
-
-        try {
-            placeOrderBtn.disabled = true;
-            placeOrderBtn.textContent = 'Placing Order...';
-
-            const response = await fetch(`${API_BASE_URL}/order`, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({
-                    name,
-                    phone,
-                    address: fulfillment === 'delivery' ? deliveryAddress.value.trim() : '',
-                    orderType: fulfillment,
-                    items: itemsPayload,
-                    total
-                })
-            });
-
-            const result = await response.json();
-
-            if (!response.ok || !result.success) {
-                throw new Error(result.message || 'Order failed');
-            }
-
-            orderMessage.textContent = `Order placed successfully for ${totalItems} item(s).`;
-            orderMessage.className = 'feedback success';
-
-            Object.keys(cart).forEach((id) => {
-                delete cart[id];
-            });
-
-            pickupSlot.value = '';
-            deliveryAddress.value = '';
-            orderName.value = '';
-            phoneNumber.value = '';
-            updateCart();
-        } catch (error) {
-            orderMessage.textContent = error.message || 'Unable to place order right now.';
-            orderMessage.className = 'feedback error';
-        } finally {
-            placeOrderBtn.disabled = false;
-            placeOrderBtn.textContent = 'Place Order';
-        }
     });
 
     bookingForm.addEventListener('submit', async (event) => {
@@ -308,5 +140,5 @@ document.addEventListener('DOMContentLoaded', () => {
 
     revealElements.forEach((el) => observer.observe(el));
 
-    updateCart();
+    syncCartStorage();
 });

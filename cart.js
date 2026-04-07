@@ -34,6 +34,30 @@ const PRODUCT_CATALOG = [
     name: 'Flat White',
     price: 239,
     image: 'https://images.unsplash.com/photo-1509785307050-d4066910ec1e?q=80&w=900&auto=format&fit=crop'
+  },
+  {
+    id: 'americano',
+    name: 'Americano',
+    price: 179,
+    image: 'https://images.unsplash.com/photo-1497636577773-f1231844b336?q=80&w=900&auto=format&fit=crop'
+  },
+  {
+    id: 'macchiato',
+    name: 'Macchiato',
+    price: 219,
+    image: 'https://images.unsplash.com/photo-1517701604599-bb29b565090c?q=80&w=900&auto=format&fit=crop'
+  },
+  {
+    id: 'icedlatte',
+    name: 'Iced Latte',
+    price: 259,
+    image: 'https://images.unsplash.com/photo-1485808191679-5f86510681a2?q=80&w=900&auto=format&fit=crop'
+  },
+  {
+    id: 'caramellatte',
+    name: 'Caramel Latte',
+    price: 279,
+    image: 'https://images.unsplash.com/photo-1445116572660-236099ec97a0?q=80&w=900&auto=format&fit=crop'
   }
 ];
 
